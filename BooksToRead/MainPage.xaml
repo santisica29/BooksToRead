@@ -41,6 +41,11 @@
                         </SwipeView.RightItems>
                         <Grid Padding="0,8">
                             <Border>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer>
+                                        
+                                    </TapGestureRecognizer>
+                                </Border.GestureRecognizers>
                                 <Label Text="{Binding .}"
                                        FontSize="20"/>
                             </Border>

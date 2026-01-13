@@ -6,16 +6,16 @@ using System.Collections.ObjectModel;
 namespace BooksToRead.ViewModel;
 public partial class MainViewModel : ObservableObject
 {
-    public MainViewModel()
-    {
-        Books = new ObservableCollection<string>();
-    }
-
     [ObservableProperty]
-    ObservableCollection<string> _books;
+    ObservableCollection<string> _books  = new();
 
     [ObservableProperty]
     string text;
+
+    public MainViewModel()
+    {
+  
+    }
 
     [RelayCommand]
     void Add()
@@ -31,5 +31,10 @@ public partial class MainViewModel : ObservableObject
     void Delete(string s)
     {
         Books.Remove(s);
+    }
+
+    async Task Tap(string s)
+    {
+        await Shell.Current.GoToAsync($"{nameof(DetailPage)}?Text={s}");
     }
 }
