@@ -6,7 +6,7 @@
              x:Class="BooksToRead.MainPage"
              Title="Books to Read" >
 
-    <Grid RowDefinitions="100,Auto,Auto,*"
+    <Grid RowDefinitions="100,Auto,*"
           ColumnDefinitions=".75*, .25*"
           Padding="10"
           RowSpacing="10"
@@ -17,24 +17,20 @@
                Background="Transparent"/>
 
         <Entry Placeholder="Enter your book"
-               Text="{Binding Title}"
+               Text="{Binding Text}"
                Grid.Row="1"/>
 
-        <Entry Placeholder="Description"
-               Text="{Binding Description}"
-               Grid.Row="2"/>
-
         <Button Text="Add"
-                Grid.Row="2"
+                Grid.Row="1"
                 Grid.Column="1"
-                Command="{Binding AddAsyncCommand}"/>
+                Command="{Binding AddCommand}"/>
 
-        <CollectionView Grid.Row="3" Grid.ColumnSpan="2"
-                        ItemsSource="{Binding BooksFromAPI}"
+        <CollectionView Grid.Row="2" Grid.ColumnSpan="2"
+                        ItemsSource="{Binding Books}"
                         SelectionMode="None">
 
             <CollectionView.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="{x:Type x:String}">
                     <SwipeView>
                         <SwipeView.RightItems>
                             <SwipeItems>
@@ -50,7 +46,7 @@
                                     <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=TapCommand}"
                                                           CommandParameter="{Binding .}"/>
                                 </Border.GestureRecognizers>
-                                <Label Text="{Binding Title}"
+                                <Label Text="{Binding .}"
                                        FontSize="20"/>
                             </Border>
                         </Grid>
