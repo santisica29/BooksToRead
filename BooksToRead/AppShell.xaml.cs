@@ -1,10 +1,8 @@
-﻿namespace BooksToRead
+﻿namespace BooksToRead;
+public partial class AppShell : Shell
 {
-    public partial class AppShell : Shell
+    public AppShell()
     {
-        public AppShell()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }
