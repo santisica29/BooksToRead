@@ -32,4 +32,10 @@ public partial class MainViewModel : ObservableObject
     {
         Books.Remove(s);
     }
+
+    [RelayCommand]
+    async Task Tap(string s)
+    {
+        await Shell.Current.GoToAsync($"{nameof(DetailPage)}?Text={s}");
+    }
 }
