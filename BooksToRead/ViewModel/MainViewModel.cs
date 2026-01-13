@@ -1,36 +1,66 @@
 ﻿
+using BooksToRead.Models;
+using BooksToRead.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace BooksToRead.ViewModel;
 public partial class MainViewModel : ObservableObject
 {
+    private readonly BookApiService _apiService;
+
+    public ObservableCollection<Book> BooksFromAPI { get; } = new();
+
+    [ObservableProperty]
+    string title;
+
+    [ObservableProperty]
+    string description;
+
     public MainViewModel()
     {
-        Books = new ObservableCollection<string>();
+        _apiService = new BookApiService();
+        _ = LoadBooksAsync();
     }
 
-    [ObservableProperty]
-    ObservableCollection<string> _books;
+    private async Task LoadBooksAsync()
+    {
+        var books = await _apiService.GetBooksAsync();
 
-    [ObservableProperty]
-    string text;
+        BooksFromAPI.Clear();
+        foreach (var book in books)
+            BooksFromAPI.Add(book);
+    }
 
     [RelayCommand]
-    void Add()
+    async Task Add()
     {
-        if (string.IsNullOrWhiteSpace(Text))
+        if (string.IsNullOrWhiteSpace(Title))
             return;
 
-        Books.Add(Text);
-        Text = string.Empty;
+        var newBook = new Book
+        {
+            Title = Title,
+            Description = Description
+        };
+
+        var createdBook = await _apiService.CreateBookAsync(newBook);
+
+        if (createdBook is null)
+            return;
+
+        BooksFromAPI.Add(newBook);
+
+        Title = string.Empty;
+        Description = string.Empty;
     }
 
     [RelayCommand]
-    void Delete(string s)
+    void Delete(Book book)
     {
-        Books.Remove(s);
+        BooksFromAPI.Remove(book);
     }
 
     [RelayCommand]
