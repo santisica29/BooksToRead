@@ -1,36 +1,54 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BooksToRead.MainPage">
+             x:Class="BooksToRead.MainPage"
+             Title="Books to Read">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
-            <Image
-                Source="dotnet_bot.png"
-                HeightRequest="185"
-                Aspect="AspectFit"
-                SemanticProperties.Description="dot net bot in a hovercraft number nine" />
+    <Grid RowDefinitions="100,Auto,*"
+          ColumnDefinitions=".75*, .25*"
+          Padding="10"
+          RowSpacing="10"
+          ColumnSpacing="10">
 
-            <Label
-                Text="Books To Read"
-                Style="{StaticResource Headline}"
-                SemanticProperties.HeadingLevel="Level1" />
+        <Image Grid.ColumnSpan="2"
+               Source="book_logo7.jpg"
+               Background="Transparent"/>
 
-            <Label
-                Text="Enter your book with a title and a description!"
-                Style="{StaticResource SubHeadline}"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
+        <Entry Placeholder="Enter your book"
+               Grid.Row="1"/>
 
-            <Button
-                x:Name="CounterBtn"
-                Text="Click me" 
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Fill" />
-        </VerticalStackLayout>
-    </ScrollView>
+        <Button Text="Add"
+                Grid.Row="1"
+                Grid.Column="1"/>
+
+        <CollectionView Grid.Row="2" Grid.ColumnSpan="2">
+            <CollectionView.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Catcher in the Rye</x:String>
+                    <x:String>Crime and Punishment</x:String>
+                    <x:String>The Fountainhead</x:String>
+                </x:Array>
+            </CollectionView.ItemsSource>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Delete"
+                                           BackgroundColor="DarkRed"/>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <Grid Padding="0,8">
+                            <Border>
+                                <Label Text="{Binding .}"
+                                       FontSize="20"/>
+                            </Border>
+                        </Grid>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
 
 </ContentPage>
