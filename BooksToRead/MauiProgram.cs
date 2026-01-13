@@ -1,4 +1,5 @@
-﻿using BooksToRead.ViewModel;
+﻿using BooksToRead.Services;
+using BooksToRead.ViewModel;
 using Microsoft.Extensions.Logging;
 
 namespace BooksToRead
@@ -15,6 +16,10 @@ namespace BooksToRead
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
+
+            string dbPath = Path.Combine(FileSystem.AppDataDirectory, "books.db");
+
+            builder.Services.AddSingleton(new BookDatabase(dbPath));
 
             builder.Services.AddSingleton<MainPage>();
             builder.Services.AddSingleton<MainViewModel>();

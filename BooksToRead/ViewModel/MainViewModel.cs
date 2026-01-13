@@ -1,36 +1,57 @@
 ﻿
+using BooksToRead.Models;
+using BooksToRead.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace BooksToRead.ViewModel;
 public partial class MainViewModel : ObservableObject
 {
+    private readonly BookDatabase _db;
+
     [ObservableProperty]
-    ObservableCollection<string> _books  = new();
+    ObservableCollection<Book> _books  = new();
 
     [ObservableProperty]
     string text;
 
-    public MainViewModel()
+    public MainViewModel(BookDatabase db)
     {
-  
+        _db = db;
     }
 
     [RelayCommand]
-    void Add()
+    async void LoadBooks()
+    {
+        var books = await _db.GetBooksAsync();
+        Books.Clear();
+        foreach (var book in books)
+            Books.Add(book);
+    }
+
+    [RelayCommand]
+    async Task Add()
     {
         if (string.IsNullOrWhiteSpace(Text))
             return;
 
-        Books.Add(Text);
+        var book = new Book
+        {
+            Title = Text,
+        };
+        await _db.AddBookAsync(book);
+
+        Books.Add(book);
         Text = string.Empty;
     }
 
     [RelayCommand]
-    void Delete(string s)
+    async Task Delete(Book book)
     {
-        Books.Remove(s);
+        await _db.DeleteBookAsync(book);
+        Books.Remove(book);
     }
 
     async Task Tap(string s)
