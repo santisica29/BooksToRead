@@ -15,7 +15,7 @@ public partial class MainViewModel : ObservableObject
     ObservableCollection<Book> _books  = new();
 
     [ObservableProperty]
-    string text;
+    string title;
 
     public MainViewModel(BookDatabase db)
     {
@@ -34,17 +34,17 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     async Task Add()
     {
-        if (string.IsNullOrWhiteSpace(Text))
+        if (string.IsNullOrWhiteSpace(Title))
             return;
 
         var book = new Book
         {
-            Title = Text,
+            Title = Title,
         };
         await _db.AddBookAsync(book);
 
         Books.Add(book);
-        Text = string.Empty;
+        Title = string.Empty;
     }
 
     [RelayCommand]

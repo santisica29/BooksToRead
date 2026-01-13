@@ -16,8 +16,8 @@
                Source="book_logo7.jpg"
                Background="Transparent"/>
 
-        <Entry Placeholder="Enter your book"
-               Text="{Binding Text}"
+        <Entry Placeholder="New book title"
+               Text="{Binding Title}"
                Grid.Row="1"/>
 
         <Button Text="Add"
@@ -29,7 +29,7 @@
                         ItemsSource="{Binding Books}">
 
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="{x:Type x:String}">
+                <DataTemplate>
                     <SwipeView>
                         <SwipeView.RightItems>
                             <SwipeItems>
@@ -46,7 +46,7 @@
                                         
                                     </TapGestureRecognizer>
                                 </Border.GestureRecognizers>
-                                <Label Text="{Binding .}"
+                                <Label Text="{Binding Title}"
                                        FontSize="20"/>
                             </Border>
                         </Grid>
